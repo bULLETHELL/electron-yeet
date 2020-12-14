@@ -1,0 +1,24 @@
+{
+    "name": "electron-yeet",
+    "version": "0.1.0",
+    "description": "Electron Yeet",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron .",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/bULLETHELL/electron-yeet.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/bULLETHELL/electron-yeet/issues"
+    },
+    "homepage": "https://github.com/bULLETHELL/electron-yeet#readme",
+    "devDependencies": {
+        "electron": "^11.1.0"
+    }
+}
