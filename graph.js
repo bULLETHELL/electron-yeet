@@ -4,38 +4,34 @@ const vegaEmbed = require("vega-embed")
 const Chart = require("chart.js")
 const dataframe = z.readCSV("./P217SebringGP2.csv")
 const dataParsed = z.parseNums(['Time', 'Throttle'])
-//const time = z.getCol('"Time', parsedData)
-//console.log(z.head(5, parsedData))
-//console.log(z.getCol('""Throttle""', dataframe))
-/*
-let graph= {
-    data: {values: dataParsed},
-    width: 700,
-    height: 350,
-    mark: {type: 'line', strokeWidth: .8},
-    encoding: {
-      x: {field: "Time", type: "temporal"},
-      y: {field: "Throttle", type: "quantitative", scale: {type:'log'}}
-    }
-  }
 
-vegaEmbed("#graph", graph)
-*/
 time = z.getCol('Time', dataframe)
 throttle = z.getCol('Throttle', dataframe)
-console.log(time)
-var ctx = document.getElementById("myChart");
-var myChart = new Chart(ctx, {
-  type: 'line',
-  data: {
-    labels: time,
-    datasets: [
-      { 
-        data: throttle
-      }
-    ]
-  },
-  options: {
-      
-  }
-});
+brake = z.getCol('Brake', dataframe)
+fuelInLitres = z.getCol('Fuel Level', dataframe)
+
+function drawGraph(title, xAxis, yAxis, canvasName){
+    var ctx = document.getElementById(canvasName)
+    var myChart =new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: xAxis,
+          datasets: [
+            { 
+              data: yAxis,
+              pointRadius: 0,
+              label: "input",
+            }
+          ]
+        },
+        options: {
+            title: {
+                display: true,
+                text: title
+            },
+        },
+      })
+}
+drawGraph("Throttle", time, throttle, "throttleCanvas")
+drawGraph("Brake", time, brake, "brakeCanvas")
+drawGraph("Fuel", time, fuelInLitres, "fuelCanvas")
