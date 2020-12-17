@@ -1,5 +1,5 @@
 pd = require("node-pandas")
-df = pd.readCsv("C:\\Users\\FunkyXive\\github\\electron-yeet\\testCsvFiles\\P217SebringGP.csv")
+df = pd.readCsv("./P217SebringGP.csv")
 let time = df['"Time']
 let distance = df['""Distance""']
 let throttlePos = df['""Throttle""']
