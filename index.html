@@ -13,23 +13,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
     <link rel="stylesheet" href="">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
 </head>
 
 <body style="background: white">
-    <h1>Hello World</h1>
-    <p>
-        We are using node
-        <script>
-            document.write(process.versions.node)
-        </script>, Chrome lalla
-        <script>
-            document.write(process.versions.chrome)
-        </script>, and Electron
-        <script>
-            document.write(process.versions.electron)
-        </script>
-    </p>
-
+    <div id="graph"></div>
+    <canvas id="myChart" width="1600" height="900"></canvas>
+    <script src="./graph.js"></script>
 </body>
-
+    
 </html>

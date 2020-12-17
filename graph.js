@@ -1,10 +1,22 @@
-pd = require("node-pandas")
-df = pd.readCsv("./P217SebringGP.csv")
-let time = df['"Time']
-let distance = df['""Distance""']
-let throttlePos = df['""Throttle""']
-let brakePos = df['""Brake""']
-let fuelInLiters = df['""Fuel Level""']
-let fuelInPercent = df['""Fuel Remaining""']
-let speedInMetersPerSec = df['""Ground Speed""']
-console.log(df['""Ground Speed""']);
+const z = require("zebras")
+const vegalite = require("vega-lite")
+const vegaEmbed = require("vega-embed")
+
+const dataframe = z.readCSV("./P217SebringGP.csv")
+const dataParsed = z.parseNums(['"Time', '"Throttle"'])
+//const time = z.getCol('"Time', parsedData)
+//console.log(z.head(5, parsedData))
+//console.log(z.getCol('""Throttle""', dataframe))
+
+let graph= {
+    data: {values: dataParsed},
+    width: 700,
+    height: 350,
+    mark: {type: 'line', strokeWidth: .8},
+    encoding: {
+      x: {field: "Time", type: "temporal"},
+      y: {field: "Throttle", type: "quantitative", scale: {type:'log'}}
+    }
+  }
+
+vegaEmbed("#graph", graph)
