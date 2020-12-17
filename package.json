@@ -20,5 +20,8 @@
     "homepage": "https://github.com/bULLETHELL/electron-yeet#readme",
     "devDependencies": {
         "electron": "^11.1.0"
+    },
+    "dependencies": {
+        "node-pandas": "^1.0.5"
     }
 }
