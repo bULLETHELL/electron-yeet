@@ -34,6 +34,7 @@ function drawGraph(title, xAxis, yAxis, canvasName){
         },
       })
 }
+document.getElementById("lapFuelText").innerHTML = `Fuel used this lap: ${fuelInLitres[0] - fuelInLitres[fuelInLitres.length-1]}`
 drawGraph("Throttle", time, throttle, "throttleCanvas")
 drawGraph("Brake", time, brake, "brakeCanvas")
 drawGraph("Fuel", time, fuelInLitres, "fuelCanvas")
