@@ -2,6 +2,8 @@ const z = require("zebras")
 const vegalite = require("vega-lite")
 const vegaEmbed = require("vega-embed")
 const Chart = require("chart.js")
+
+
 const dataframe = z.readCSV("./P217SebringGP2.csv")
 const dataParsed = z.parseNums(['Time', 'Throttle'])
 
