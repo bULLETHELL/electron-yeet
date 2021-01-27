@@ -123,6 +123,43 @@ function createWindow() {
                     await shell.openExternal('https://electronjs.org')
                 }
             }]
+        },
+        {
+            label: 'Graphs',
+            submenu: [{
+                    label: 'Fuel',
+                    click: async() => {
+                        let canvasName = 'fuelCanvas'
+                        let canvasTitle = 'Fuel'
+                        win.webContents.send('draw-fuel', {
+                            canvasName,
+                            canvasTitle
+                        })
+                    }
+                },
+                {
+                    label: 'Throttle',
+                    click: async() => {
+                        let canvasName = 'throttleCanvas'
+                        let canvasTitle = 'Throttle'
+                        win.webContents.send('draw-throttle', {
+                            canvasName,
+                            canvasTitle
+                        })
+                    }
+                },
+                {
+                    label: 'Brake',
+                    click: async() => {
+                        let canvasName = 'brakeCanvas'
+                        let canvasTitle = 'Brake'
+                        win.webContents.send('draw-brake', {
+                            canvasName,
+                            canvasTitle
+                        })
+                    }
+                }
+            ]
         }
     ]
 
