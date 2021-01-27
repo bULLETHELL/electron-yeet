@@ -1,0 +1,5 @@
+csv file converter and formatter
+    add row with time standard iracing telemetry is 60hz
+    select rows that i want to extract(Throttle, Brake, FuelInLiters, SteeringWheelAngle, lap, rpm, speed)
+    potentially select these rows(track temp, traction controll, lap dist, lapDistPct, on pit road)
+    split into different lists based on lap counter
