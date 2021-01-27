@@ -52,6 +52,18 @@ ipcRenderer.on('draw-brake', (event, arg) => {
     drawGraph(arg.canvasTitle, time, brake, arg.canvasName)
 })
 
+ipcRenderer.on('delete-fuel', (event, arg) => {
+    document.getElementById(arg).remove()
+})
+
+ipcRenderer.on('delete-throttle', (event, arg) => {
+    document.getElementById(arg).remove()
+})
+
+ipcRenderer.on('delete-brake', (event, arg) => {
+    document.getElementById(arg).remove()
+})
+
 //drawGraph("Throttle", time, throttle, "throttleCanvas")
 //drawGraph("Brake", time, brake, "brakeCanvas")
 //drawGraph("Fuel", time, fuelInLitres, "fuelCanvas")

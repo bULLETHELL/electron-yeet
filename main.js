@@ -128,35 +128,50 @@ function createWindow() {
             label: 'Graphs',
             submenu: [{
                     label: 'Fuel',
-                    click: async() => {
+                    type: 'checkbox',
+                    click: async(menuItem, browserWindow, event) => {
                         let canvasName = 'fuelCanvas'
                         let canvasTitle = 'Fuel'
-                        win.webContents.send('draw-fuel', {
-                            canvasName,
-                            canvasTitle
-                        })
+                        if (menuItem.checked) {
+                            win.webContents.send('draw-fuel', {
+                                canvasName,
+                                canvasTitle
+                            })
+                        } else {
+                            win.webContents.send('delete-fuel', canvasName)
+                        }
                     }
                 },
                 {
                     label: 'Throttle',
-                    click: async() => {
+                    type: 'checkbox',
+                    click: async(menuItem, browserWindow, event) => {
                         let canvasName = 'throttleCanvas'
                         let canvasTitle = 'Throttle'
-                        win.webContents.send('draw-throttle', {
-                            canvasName,
-                            canvasTitle
-                        })
+                        if (menuItem.checked) {
+                            win.webContents.send('draw-throttle', {
+                                canvasName,
+                                canvasTitle
+                            })
+                        } else {
+                            win.webContents.send('delete-throttle', canvasName)
+                        }
                     }
                 },
                 {
                     label: 'Brake',
-                    click: async() => {
+                    type: 'checkbox',
+                    click: async(menuItem, browserWindow, event) => {
                         let canvasName = 'brakeCanvas'
                         let canvasTitle = 'Brake'
-                        win.webContents.send('draw-brake', {
-                            canvasName,
-                            canvasTitle
-                        })
+                        if (menuItem.checked) {
+                            win.webContents.send('draw-brake', {
+                                canvasName,
+                                canvasTitle
+                            })
+                        } else {
+                            win.webContents.send('delete-brake', canvasName)
+                        }
                     }
                 }
             ]
@@ -174,6 +189,11 @@ app.on('window-all-closed', () => {
     }
 })
 
+app.on('activate', () => {
+    if (BrowserWindow.getAllWindows().length === 0) {
+        createWindow()
+    }
+})
 app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
         createWindow()
