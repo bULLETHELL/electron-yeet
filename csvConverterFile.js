@@ -14,7 +14,6 @@ function objToString (obj) {
 }
 function zebrasFunction(filename, fileInfo){
     const df = z.readCSV(filename)
-    console.log(fileInfo)
     console.log('File loaded into zebras dataframe')
     console.log('Extracting relevant columns')
     const rowsToExtract = ['Speed', 'RPM', 'Throttle', 'Brake', 'SteeringWheelAngle', 'Lap', 'FuelLevel']
@@ -87,7 +86,7 @@ function formattingFunction(inputFile){
         fastcsv.writeToPath('./out.csv', rows).on('finish', () => {
             console.log('CSV file successfully processed')
             console.log('Waiting for zebras function')
-            zebrasFunction('out.csv', `./${sessionType}-${driverName}-${car}-${track}-${date}-${time}.csv`)
+            zebrasFunction('out.csv', [driverName, car, track, date, time, sessionType])
         })
     })
 }
