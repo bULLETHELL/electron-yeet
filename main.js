@@ -47,7 +47,10 @@ function createWindow() {
                         }).then(result => {
                             if (result.filePaths.length == 1) {
                                 win.loadURL(`file://${__dirname}/index.html`).then(() => {
-                                    win.webContents.send('open-file', result.filePaths[0])
+                                    var outputFilename = "race1.csv"
+                                    win.webContents.send('convert-file', [result.filePaths[0], outputFilename]).then(() => {
+                                        win.webContents.send('open-file', outputFilename)
+                                    })
                                 })
                             } else if (result.filePaths.length == 2) {
                                 win.loadURL(`file://${__dirname}/compare_view.html`).then(() => {
@@ -97,13 +100,13 @@ function createWindow() {
         {
             label: 'View',
             submenu: [{
-                    label: 'Compare laps',
+                    label: 'Compare Races',
                     click: async(menuItem, browserWindow, event) => {
                         win.loadURL(`file://${__dirname}/compare_view.html`)
                     }
                 },
                 {
-                    label: 'Analyze single lap',
+                    label: 'Analyze single race',
                     click: async(menuItem, browserWindow, event) => {
                         win.loadURL(`file://${__dirname}/index.html`)
                     }
