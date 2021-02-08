@@ -27,7 +27,7 @@ function zebrasFunction(filename, fileInfo){
     }
     outputDf = z.addCol('Time', timeArray, outputDf)
     console.log('Exporting csv')
-    z.toCSV(String(fileInfo), outputDf)
+    z.toCSV("ADD PATH HERE", outputDf)// MORTEN TILFØJ DIN LORTEPATH DER
     console.log('Done!')
 }
 function formattingFunction(inputFile){
