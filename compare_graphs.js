@@ -56,7 +56,8 @@ ipcRenderer.on('delete-brake', (event, arg) => {
 })
 
 ipcRenderer.on('draw-steering', (event, args) => {
-
+    drawGraphFromDataframe(args.canvasTitle, time1, steering1, args.canvasName, df1, "1")
+    drawGraphFromDataframe(args.canvasTitle, time2, steering2, args.canvasName, df2, "2")
 })
 
 ipcRenderer.on('delete-steering', (event, arg) => {
@@ -64,18 +65,6 @@ ipcRenderer.on('delete-steering', (event, arg) => {
     deleteGraph(arg, "2")
 })
 
-//alert(file1Input)
-
-/*file1Input.onchange = (e) => {
-    var file1List = file1Input.files
-    var file1 = file1List[0]
-    var fileUrl = URL.createObjectURL(file1)
-
-    var df = z.readCSV(fileUrl)
-
-    document.getElementById('wa').innerHTML = df
-
-} */
 
 function drawGraphFromDataframe(title, xAxis, yAxis, canvasName, dataframe, divId) {
     var ctx = document.createElement("canvas")
