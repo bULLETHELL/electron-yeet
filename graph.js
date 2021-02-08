@@ -5,6 +5,12 @@ var time = null
 var throttle = null
 var brake = null
 var fuelInLitres = null
+var lapSeries = null
+var lapToPick = null
+var filteredDf = null
+var speed = null
+var rpm = null
+var steering = null
 
 ipcRenderer.on('open-file', (event, arg) => {
     document.getElementById("loadedFile").innerHTML = "Loaded File: " + arg
@@ -15,10 +21,10 @@ ipcRenderer.on('open-file', (event, arg) => {
     time = z.getCol('Time', filteredDf)
     throttle = z.getCol('Throttle', filteredDf)
     brake = z.getCol('Brake', filteredDf)
-    fuelInLitres = z.getCol('Fuel Level', filteredDf)
+    fuelInLitres = z.getCol('FuelLevel', filteredDf)
     speed = z.getCol('Speed', filteredDf)
     rpm = z.getCol('RPM', filteredDf)
-
+    steering = z.getCol('SteeringWheelAngle', filteredDf)
 })
 
 function drawGraph(title, xAxis, yAxis, canvasName) {
@@ -58,18 +64,17 @@ ipcRenderer.on('draw-brake', (event, arg) => {
     drawGraph(arg.canvasTitle, time, brake, arg.canvasName)
 })
 
-ipcRenderer.on('draw-speed', (even, arg) => {
+ipcRenderer.on('draw-speed', (event, arg) => {
     drawGraph(arg.canvasTitle, time, speed, arg.canvasName)
 })
 
-ipcRenderer.on('draw-rpm', (even, arg) => {
+ipcRenderer.on('draw-rpm', (event, arg) => {
     drawGraph(arg.canvasTitle, time, rpm, arg.canvasName)
 })
 
-
-
-
-
+ipcRenderer.on('draw-steering', (event, arg) => {
+    drawGraph(arg.canvasTitle, time, steering, arg.canvasName)
+})
 
 ipcRenderer.on('delete-fuel', (event, arg) => {
     document.getElementById(arg).remove()
@@ -83,13 +88,14 @@ ipcRenderer.on('delete-brake', (event, arg) => {
     document.getElementById(arg).remove()
 })
 
-ipcRenderer.on('delete-speed', (even, arg) => {
-    drawGraph(arg.canvasTitle, time, speed, arg.canvasName)
+ipcRenderer.on('delete-speed', (event, arg) => {
+    document.getElementById(arg).remove()
 })
 
-ipcRenderer.on('delete-rpm', (even, arg) => {
-        drawGraph(arg.canvasTitle, time, rpm, arg.canvasName)
-    })
-    //drawGraph("Throttle", time, throttle, "throttleCanvas")
-    //drawGraph("Brake", time, brake, "brakeCanvas")
-    //drawGraph("Fuel", time, fuelInLitres, "fuelCanvas")
+ipcRenderer.on('delete-rpm', (event, arg) => {
+    document.getElementById(arg).remove()
+})
+
+ipcRenderer.on('delete-steering', (event, arg) => {
+    document.getElementById(arg).remove()
+})
