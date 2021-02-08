@@ -1,11 +1,4 @@
-const {
-    ipcRenderer
-} = require('electron')
-const z = require('zebras')
 const Chart = require("chart.js")
-const fs = require('fs');
-const csv = require('csv-parser');
-const fastcsv = require('fast-csv')
 
 var df1 = null
 var df2 = null
@@ -19,17 +12,8 @@ var fuelInLitres1 = null
 var fuelInLitres2 = null
 
 ipcRenderer.on('open-files', (event, args) => {
-    df1 = z.readCSV(args[0])
-    df2 = z.readCSV(args[1])
-        /*
-        var csvData = []
-        fs.createReadStream(args[0]).pipe(csv()).on('data', (row) => {
-            csvData.push(row)
-        }).on('end', () => {
-            alert(csvData.length)
-            const ws = fs.createWriteStream("1.csv")
-            fastcsv.write(csvData, { headers: true }).pipe(ws)
-        })*/
+    df1 = z.readCSV("./" + args[0])
+    df2 = z.readCSV("./" + args[1])
 
     time1 = z.getCol('Time', df1)
     time2 = z.getCol('Time', df2)
@@ -37,8 +21,8 @@ ipcRenderer.on('open-files', (event, args) => {
     throttle2 = z.getCol('Throttle', df2)
     brake1 = z.getCol('Brake', df1)
     brake2 = z.getCol('Brake', df2)
-    fuelInLitres1 = z.getCol('Fuel Level', df1)
-    fuelInLitres2 = z.getCol('Fuel Level', df2)
+    fuelInLitres1 = z.getCol('FuelLevel', df1)
+    fuelInLitres2 = z.getCol('FuelLevel', df2)
 })
 
 ipcRenderer.on('draw-fuel', (event, args) => {

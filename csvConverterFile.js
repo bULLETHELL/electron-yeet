@@ -103,5 +103,16 @@ ipcRenderer.on('convert-file', (event, args) => {
     formattingPromise.then(function(result) {
         console.log("before ipc send")
         console.log(args[1])
+        ipcRenderer.send('open-file-message', args[1])
+    })
+})
+
+ipcRenderer.on('convert-files', (event, args) => {
+    let formattingPromise1 = formattingFunction(args[0], args[2])
+    formattingPromise1.then(function(result) {
+        let formattingPromise2 = formattingFunction(args[1], args[3])
+        formattingPromise2.then(function(result) {
+            ipcRenderer.send('open-files-message', [args[2], args[3]])
+        })
     })
 })

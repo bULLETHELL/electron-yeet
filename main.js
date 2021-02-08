@@ -48,13 +48,19 @@ function createWindow() {
                             if (result.filePaths.length == 1) {
                                 win.loadURL(`file://${__dirname}/index.html`).then(() => {
                                     var outputFilename = "race1.csv"
-                                    win.webContents.send('convert-file', [result.filePaths[0], outputFilename]).then(() => {
-                                        win.webContents.send('open-file', outputFilename)
+                                    win.webContents.send('convert-file', [result.filePaths[0], outputFilename])
+                                    ipcMain.on('open-file-message', (event, arg) => {
+                                        win.webContents.send('open-file', arg)
                                     })
                                 })
                             } else if (result.filePaths.length == 2) {
                                 win.loadURL(`file://${__dirname}/compare_view.html`).then(() => {
-                                    win.webContents.send('open-files', [result.filePaths[0], result.filePaths[1]])
+                                    var outputFilename1 = "race1.csv"
+                                    var outputFilename2 = "race2.csv"
+                                    win.webContents.send('convert-files', [result.filePaths[0], result.filePaths[1], outputFilename1, outputFilename2])
+                                    ipcMain.on('open-files-message', (event, args) => {
+                                        win.webContents.send('open-files', [args[0], args[1]])
+                                    })
                                 })
                             } else {
                                 alert("Something went wrong, please select 1 or 2 files")
@@ -217,6 +223,38 @@ function createWindow() {
                             })
                         } else {
                             win.webContents.send('delete-steering', canvasName)
+                        }
+                    }
+                },
+                {
+                    label: 'Speed',
+                    type: 'checkbox',
+                    click: async(menuItem, browserWindow, event) => {
+                        let canvasName = 'SpeedCanvas'
+                        let canvasTitle = 'Speed'
+                        if (menuItem.checked) {
+                            win.webContents.send('draw-speed', {
+                                canvasName,
+                                canvasTitle
+                            })
+                        } else {
+                            win.webContents.send('delete-speed', canvasName)
+                        }
+                    }
+                },
+                {
+                    label: 'RPM',
+                    type: 'checkbox',
+                    click: async(menuItem, browserWindow, event) => {
+                        let canvasName = 'rpmCanvas'
+                        let canvasTitle = 'RPM'
+                        if (menuItem.checked) {
+                            win.webContents.send('draw-rpm', {
+                                canvasName,
+                                canvasTitle
+                            })
+                        } else {
+                            win.webContents.send('delete-rpm', canvasName)
                         }
                     }
                 }
