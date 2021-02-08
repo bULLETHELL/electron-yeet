@@ -19,7 +19,7 @@
     },
     "homepage": "https://github.com/bULLETHELL/electron-yeet#readme",
     "devDependencies": {
-        "electron": "^11.1.0"
+        "electron": "^11.2.3"
     },
     "dependencies": {
         "chart.js": "^2.9.4",

@@ -216,6 +216,38 @@ function createWindow() {
                             win.webContents.send('delete-steering', canvasName)
                         }
                     }
+                },
+                {
+                    label: 'Speed',
+                    type: 'checkbox',
+                    click: async(menuItem, browserWindow, event) => {
+                        let canvasName = 'SpeedCanvas'
+                        let canvasTitle = 'Speed'
+                        if (menuItem.checked) {
+                            win.webContents.send('draw-speed', {
+                                canvasName,
+                                canvasTitle
+                            })
+                        } else {
+                            win.webContents.send('delete-speed', canvasName)
+                        }
+                    }
+                },
+                {
+                    label: 'RPM',
+                    type: 'checkbox',
+                    click: async(menuItem, browserWindow, event) => {
+                        let canvasName = 'rpmCanvas'
+                        let canvasTitle = 'RPM'
+                        if (menuItem.checked) {
+                            win.webContents.send('draw-rpm', {
+                                canvasName,
+                                canvasTitle
+                            })
+                        } else {
+                            win.webContents.send('delete-rpm', canvasName)
+                        }
+                    }
                 }
             ]
         }

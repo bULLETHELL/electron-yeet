@@ -90,4 +90,4 @@ function formattingFunction(inputFile, outputFile){
         })
     })
 }
-formattingFunction('testcsv.csv', "outputnigger.csv")
+formattingFunction('test3.csv', "outputnigger.csv")
