@@ -12,8 +12,8 @@ function objToString (obj) {
     }
     return str;
 }
-function zebrasFunction(filename, fileInfo){
-    const df = z.readCSV(filename)
+function zebrasFunction(inputFile, outputFile, fileInfo){
+    const df = z.readCSV(inputFile)
     console.log('File loaded into zebras dataframe')
     console.log('Extracting relevant columns')
     const rowsToExtract = ['Speed', 'RPM', 'Throttle', 'Brake', 'SteeringWheelAngle', 'Lap', 'FuelLevel']
@@ -27,10 +27,10 @@ function zebrasFunction(filename, fileInfo){
     }
     outputDf = z.addCol('Time', timeArray, outputDf)
     console.log('Exporting csv')
-    z.toCSV("ADD PATH HERE", outputDf)// MORTEN TILFØJ DIN LORTEPATH DER
+    z.toCSV(outputFile, outputDf)// MORTEN TILFØJ DIN LORTEPATH DER
     console.log('Done!')
 }
-function formattingFunction(inputFile){
+function formattingFunction(inputFile, outputFile){
     var rows = []
     var counter = 1
     var driverName, car, track, date, time, sessionType
@@ -86,8 +86,8 @@ function formattingFunction(inputFile){
         fastcsv.writeToPath('./out.csv', rows).on('finish', () => {
             console.log('CSV file successfully processed')
             console.log('Waiting for zebras function')
-            zebrasFunction('out.csv', [driverName, car, track, date, time, sessionType])
+            zebrasFunction('out.csv', outputFile, [driverName, car, track, date, time, sessionType])
         })
     })
 }
-formattingFunction('testcsv.csv')
+formattingFunction('testcsv.csv', "outputnigger.csv")
