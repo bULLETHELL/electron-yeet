@@ -1,4 +1,4 @@
-const { app, Menu, BrowserWindow, dialog } = require('electron')
+const { app, Menu, BrowserWindow, dialog, ipcMain } = require('electron')
 const fs = require('fs')
 const path = require('path')
 
@@ -40,15 +40,25 @@ function createWindow() {
                     label: 'Open File',
                     click: async(menuItem, browserWindow, event) => {
                         dialog.showOpenDialog({
-                            properties: ['openFile']
-                        }, (filePath) => {
-                            fs.readFile(filePath[0], (err, data) => {
-                                if (!err) {
-                                    win.webContents.send('print-file', data.toString())
-                                } else {
-                                    console.log(err)
-                                }
-                            })
+                            properties: ['openFile', 'multiSelections'],
+                            filters: [
+                                { name: 'CSV Files', extensions: ['csv'] }
+                            ]
+                        }).then(result => {
+                            if (result.filePaths.length == 1) {
+                                win.loadURL(`file://${__dirname}/index.html`).then(() => {
+                                    win.webContents.send('open-file', result.filePaths[0])
+                                })
+                            } else if (result.filePaths.length == 2) {
+                                win.loadURL(`file://${__dirname}/compare_view.html`).then(() => {
+                                    win.webContents.send('open-files', [result.filePaths[0], result.filePaths[1]])
+                                })
+                            } else {
+                                alert("Something went wrong, please select 1 or 2 files")
+                            }
+
+                        }).catch(err => {
+                            console.log(err)
                         })
                     }
                 }
@@ -86,7 +96,24 @@ function createWindow() {
         // { role: 'viewMenu' }
         {
             label: 'View',
-            submenu: [
+            submenu: [{
+                    label: 'Compare laps',
+                    click: async(menuItem, browserWindow, event) => {
+                        win.loadURL(`file://${__dirname}/compare_view.html`)
+                    }
+                },
+                {
+                    label: 'Analyze single lap',
+                    click: async(menuItem, browserWindow, event) => {
+                        win.loadURL(`file://${__dirname}/index.html`)
+                    }
+                },
+                {
+                    label: 'Analyze a stint',
+                    click: async(menuItem, browserWindow, event) => {
+                        win.loadURL(`file://${__dirname}/stint_view.html`)
+                    }
+                },
                 { role: 'reload' },
                 { role: 'forceReload' },
                 { role: 'toggleDevTools' },
@@ -173,6 +200,22 @@ function createWindow() {
                             win.webContents.send('delete-brake', canvasName)
                         }
                     }
+                },
+                {
+                    label: 'Steering Input',
+                    type: 'checkbox',
+                    click: async(menuItem, browserWindow, event) => {
+                        let canvasName = 'steeringInputCanvas'
+                        let canvasTitle = 'Steering Input'
+                        if (menuItem.checked) {
+                            win.webContents.send('draw-steering', {
+                                canvasName,
+                                canvasTitle
+                            })
+                        } else {
+                            win.webContents.send('delete-steering', canvasName)
+                        }
+                    }
                 }
             ]
         }
@@ -183,6 +226,7 @@ function createWindow() {
 }
 
 app.whenReady().then(createWindow)
+
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
         app.quit()

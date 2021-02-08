@@ -1,18 +1,22 @@
 const z = require("zebras")
-const vegalite = require("vega-lite")
-const vegaEmbed = require("vega-embed")
 const Chart = require("chart.js")
 const { ipcRenderer } = require("electron")
 
 
+var dataframe = null
+var time = null
+var throttle = null
+var brake = null
+var fuelInLitres = null
 
-let dataframe = z.readCSV("./P217SebringGP2.csv")
-let dataParsed = z.parseNums(['Time', 'Throttle'])
-
-time = z.getCol('Time', dataframe)
-throttle = z.getCol('Throttle', dataframe)
-brake = z.getCol('Brake', dataframe)
-fuelInLitres = z.getCol('Fuel Level', dataframe)
+ipcRenderer.on('open-file', (event, arg) => {
+    document.getElementById("loadedFile").innerHTML = "Loaded File: " + arg
+    dataframe = z.readCSV(arg)
+    time = z.getCol('Time', dataframe)
+    throttle = z.getCol('Throttle', dataframe)
+    brake = z.getCol('Brake', dataframe)
+    fuelInLitres = z.getCol('Fuel Level', dataframe)
+})
 
 function drawGraph(title, xAxis, yAxis, canvasName) {
     var ctx = document.createElement("canvas")
@@ -38,7 +42,6 @@ function drawGraph(title, xAxis, yAxis, canvasName) {
         },
     })
 }
-document.getElementById("lapFuelText").innerHTML = `Fuel used this lap: ${fuelInLitres[0] - fuelInLitres[fuelInLitres.length-1]}`
 
 ipcRenderer.on('draw-fuel', (event, arg) => {
     drawGraph(arg.canvasTitle, time, fuelInLitres, arg.canvasName)
